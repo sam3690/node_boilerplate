@@ -28,11 +28,14 @@ exports.login = async (req,res) => {
                     pg.CanViewAllDetail
                 FROM pagegroup pg
                 JOIN pages p ON pg.idPages = p.idPages
-                WHERE pg.idGroup = @idGroup AND ISNULL(pg.isActive, 1) = 1 AND ISNULL(p.isActive, 1) = 1`);
+                WHERE pg.idGroup = @idGroup 
+                    AND ISNULL(pg.isActive, 1) = 1 
+                    AND ISNULL(p.isActive, 1) = 1`);
 
         const permissions = {}
         for( const row of PermissionResult.recordset) {
-            permissions[row.pageUrl] = {
+            const key = row.pageUrl.replace('/','').toLowerCase() || 'dashboard';
+            permissions[key] = {
                 CanView: row.CanView === true,
                 CanAdd: row.CanAdd === true,
                 CanEdit: row.CanEdit === true,

@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 const protectedRoutes = require('./routes/protectedRoutes');
+const userRoutes = require('./routes/users');
 
 
 //Middlewares
@@ -32,6 +33,7 @@ app.use(session({
     }
 }));
 
+app.use('/api/users', userRoutes);
 app.use('/api/protected', protectedRoutes);
 
 //Routes
